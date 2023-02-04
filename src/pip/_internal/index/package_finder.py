@@ -893,6 +893,8 @@ class PackageFinder:
             specifier=specifier,
             hashes=hashes,
         )
+        if len(set(c.link.comes_from for c in candidates)) > 1:
+            raise RuntimeError("candidates found from multiple sources, potential dependency confusion attack!")
         return candidate_evaluator.compute_best_candidate(candidates)
 
     def find_requirement(
